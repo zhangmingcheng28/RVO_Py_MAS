@@ -48,10 +48,13 @@ while t*step < total_time:
     for i in range(len(X)):
         X[i][0] += V[i][0]*step
         X[i][1] += V[i][1]*step
+    t = t + 1
+    print(t)
+print('done')
     #----------------------------------------
     # visualization
-    if t%10 == 0:
-        visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
-        #visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
-    t += 1
+    # if t%10 == 0:
+    #     visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
+    #     #visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
+    # t += 1
     
