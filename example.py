@@ -43,18 +43,14 @@ while t*step < total_time:
     # compute desired vel to goal
     V_des = compute_V_des(X, goal, V_max)
     # compute the optimal vel to avoid collision
-    V = RVO_update(X, V_des, V, ws_model)
+    V = RVO_update(X, V_des, V, ws_model)  # chosen velocities
     # update position
     for i in range(len(X)):
-        X[i][0] += V[i][0]*step
-        X[i][1] += V[i][1]*step
-    t = t + 1
-    print(t)
-print('done')
+        X[i][0] += V[i][0]*step  # X's x coordinate update
+        X[i][1] += V[i][1]*step  # X's y coordinate update
     #----------------------------------------
     # visualization
-    # if t%10 == 0:
-    #     visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
-    #     #visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
-    # t += 1
-    
+    if t%10 == 0:  # % is the modulus sign, meaning to get the remainder
+        visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
+        #visualize_traj_dynamic(ws_model, X, V, goal, time=t*step, name='data/snap%s.png'%str(t/10))
+    t += 1

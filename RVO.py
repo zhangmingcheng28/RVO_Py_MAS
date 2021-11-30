@@ -17,20 +17,20 @@ def RVO_update(X, V_des, V_current, ws_model):
     """ compute best velocity given the desired velocity, current velocity and workspace model"""
     ROB_RAD = ws_model['robot_radius']+0.1
     V_opt = list(V_current)    
-    for i in range(len(X)):
+    for i in range(len(X)):  # loop for all agents
         vA = [V_current[i][0], V_current[i][1]]
         pA = [X[i][0], X[i][1]]
         RVO_BA_all = []
-        for j in range(len(X)):
+        for j in range(len(X)):  # loop for all other agents
             if i!=j:
                 vB = [V_current[j][0], V_current[j][1]]
                 pB = [X[j][0], X[j][1]]
                 # use RVO
-                transl_vB_vA = [pA[0]+0.5*(vB[0]+vA[0]), pA[1]+0.5*(vB[1]+vA[1])]
+                # transl_vB_vA = [pA[0]+0.5*(vB[0]+vA[0]), pA[1]+0.5*(vB[1]+vA[1])]
                 # use VO
-                #transl_vB_vA = [pA[0]+vB[0], pA[1]+vB[1]]
-                dist_BA = distance(pA, pB)
-                theta_BA = atan2(pB[1]-pA[1], pB[0]-pA[0])
+                transl_vB_vA = [pA[0]+vB[0], pA[1]+vB[1]]
+                dist_BA = distance(pA, pB)  #Euclidean line distance between point A and B
+                theta_BA = atan2(pB[1]-pA[1], pB[0]-pA[0])  # angle between the line of point A to +x axis, to the line A to B.
                 if 2*ROB_RAD > dist_BA:
                     dist_BA = 2*ROB_RAD
                 theta_BAort = asin(2*ROB_RAD/dist_BA)
@@ -70,7 +70,7 @@ def RVO_update(X, V_des, V_current, ws_model):
 def intersect(pA, vA, RVO_BA_all):
     # print '----------------------------------------'
     # print 'Start intersection test'
-    norm_v = distance(vA, [0, 0])
+    norm_v = distance(vA, [0, 0])  # this is in velocity domain, to test whether the velocity of A intersects the velocity obstacles
     suitable_V = []
     unsuitable_V = []
     for theta in numpy.arange(0, 2*PI, 0.1):
